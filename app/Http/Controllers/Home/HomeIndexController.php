@@ -24,7 +24,16 @@ class HomeIndexController extends Controller{
 		// print_r($story_data);
 		// print_r($active_data);
 		// print_r($admin_data);
-		return view("home.index",['server_data'=>$server_data,'net_data'=>$net_data,'story_data'=>$story_data,'active_data'=>$active_data,'admin_data'=>$admin_data]);
+		$dir=__DIR__."/static/index_static.html";
+		if(file_exists($dir)){
+			echo file_get_contents($dir);die;
+		}
+		else{
+			ob_start();
+			$content=view("home.index",['server_data'=>$server_data,'net_data'=>$net_data,'story_data'=>$story_data,'active_data'=>$active_data,'admin_data'=>$admin_data])->__toString();
+			file_put_contents($dir,$content);
+			echo $content;die;
+		}
 	}
 }
 

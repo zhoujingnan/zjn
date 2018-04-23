@@ -18,7 +18,16 @@ class HomeStoryController extends Controller{
 				}
 			}
 		}
-		return view("home.story_list",['net_data'=>$net_data,'story_data'=>$story_data]);
+		$dir=__DIR__."/static/story_static.html";
+		if(file_exists($dir)){
+			echo file_get_contents($dir);die;
+		}
+		else{
+			ob_start();
+			$content=view("home.story_list",['net_data'=>$net_data,'story_data'=>$story_data])->__toString();
+			file_put_contents($dir,$content);
+			echo $content;die;
+		}		
 	}
 }
 
